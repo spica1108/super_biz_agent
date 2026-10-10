@@ -1,0 +1,393 @@
+<section class="module" id="module-6" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+
+    <!-- ═══ SCREEN 1 — OPENING + BLACK BOX METAPHOR + DEBUGGING FLOW ═══ -->
+    <header class="module-header animate-in">
+      <span class="module-number">06</span>
+      <h1 class="module-title">When Things Go Wrong</h1>
+      <p class="module-subtitle">Real debugging scenarios — and how to think like a detective</p>
+    </header>
+
+    <div class="module-body">
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Flight Data Recorder</h2>
+
+        <p>
+          When a plane has an incident, investigators don't guess — they pull the <span class="term" data-definition="In aviation, a device that records every instrument reading and control input during a flight. Investigators replay this data to reconstruct exactly what happened. For AI agents, logs and state serve the same purpose.">flight data recorder</span> (the <span class="term" data-definition="Another name for a flight data recorder. Also used in engineering to describe a system whose internal workings are hidden — you only see inputs and outputs.">black box</span>) and replay every sensor reading and system state leading up to the moment. Debugging an AI agent works exactly the same way.
+        </p>
+
+        <p>
+          The bug isn't a typo — it's usually a decision the AI made that was reasonable in isolation but wrong in context. You debug by tracing the <span class="term" data-definition="The shared data that flows through each step of the workflow, like a whiteboard that every team member can read from and write to.">state</span> through the <span class="term" data-definition="A framework that connects AI agent components into a workflow graph, where each node is a processing step and edges define the flow between them.">LangGraph</span>, not by reading code line by line. Every <span class="term" data-definition="A single processing step in a workflow graph, like a station on an assembly line that performs one specific job.">node</span> leaves a trail — you just need to know where to look.
+        </p>
+
+        <div class="flow-steps animate-in stagger-children" style="margin: var(--space-8) 0; display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap;">
+
+          <div class="animate-in" style="text-align: center; flex: 1; min-width: 100px;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-actor-2); margin: 0 auto var(--space-2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white; box-shadow: 0 4px 12px rgba(42, 123, 155, 0.25);">&#x1F4DD;</div>
+            <strong style="display: block; font-family: var(--font-display); font-size: var(--text-sm); color: var(--color-actor-2);">Check Logs</strong>
+            <span style="font-size: var(--text-xs); color: var(--color-text-secondary);">Find the trail</span>
+          </div>
+
+          <div class="animate-in" style="font-size: 1.25rem; color: var(--color-text-muted); flex-shrink: 0;">&#x2192;</div>
+
+          <div class="animate-in" style="text-align: center; flex: 1; min-width: 100px;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-actor-1); margin: 0 auto var(--space-2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white; box-shadow: 0 4px 12px rgba(217, 79, 48, 0.25);">&#x1F50D;</div>
+            <strong style="display: block; font-family: var(--font-display); font-size: var(--text-sm); color: var(--color-actor-1);">Find Stuck Node</strong>
+            <span style="font-size: var(--text-xs); color: var(--color-text-secondary);">Where it broke</span>
+          </div>
+
+          <div class="animate-in" style="font-size: 1.25rem; color: var(--color-text-muted); flex-shrink: 0;">&#x2192;</div>
+
+          <div class="animate-in" style="text-align: center; flex: 1; min-width: 100px;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-actor-3); margin: 0 auto var(--space-2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white; box-shadow: 0 4px 12px rgba(123, 109, 170, 0.25);">&#x1F4CB;</div>
+            <strong style="display: block; font-family: var(--font-display); font-size: var(--text-sm); color: var(--color-actor-3);">Examine State</strong>
+            <span style="font-size: var(--text-xs); color: var(--color-text-secondary);">What data exists</span>
+          </div>
+
+          <div class="animate-in" style="font-size: 1.25rem; color: var(--color-text-muted); flex-shrink: 0;">&#x2192;</div>
+
+          <div class="animate-in" style="text-align: center; flex: 1; min-width: 100px;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-actor-4); margin: 0 auto var(--space-2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white; box-shadow: 0 4px 12px rgba(212, 168, 67, 0.25);">&#x1F9E0;</div>
+            <strong style="display: block; font-family: var(--font-display); font-size: var(--text-sm); color: var(--color-actor-4);">Trace Decision</strong>
+            <span style="font-size: var(--text-xs); color: var(--color-text-secondary);">Why the AI chose X</span>
+          </div>
+
+          <div class="animate-in" style="font-size: 1.25rem; color: var(--color-text-muted); flex-shrink: 0;">&#x2192;</div>
+
+          <div class="animate-in" style="text-align: center; flex: 1; min-width: 100px;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-actor-5); margin: 0 auto var(--space-2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white; box-shadow: 0 4px 12px rgba(45, 139, 85, 0.25);">&#x1F527;</div>
+            <strong style="display: block; font-family: var(--font-display); font-size: var(--text-sm); color: var(--color-actor-5);">Fix &amp; Verify</strong>
+            <span style="font-size: var(--text-xs); color: var(--color-text-secondary);">Adjust and confirm</span>
+          </div>
+
+        </div>
+
+        <p>
+          This is the detective's method. You follow the evidence step by step. Most bugs in AI agents aren't code bugs — they're <span class="term" data-definition="The art of writing instructions for AI models to get the desired behavior. Even small changes to a prompt can completely change the AI's decisions.">prompt engineering</span> errors, and the state reveals them all. Let's put this method to work.
+        </p>
+      </section>
+
+      <!-- ═══ SCREEN 2 — CODE ⇄ ENGLISH TRANSLATION: THE TRAFFIC CONTROLLER ═══ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Traffic Controller</h2>
+
+        <p>
+          The <code>should_continue</code> <span class="term" data-definition="A reusable block of code that performs a specific task, like a recipe that takes ingredients and produces a dish.">function</span> is a tiny piece of code with enormous power. It sits between the <span class="term" data-definition="The component in the system that evaluates results and decides what to do next — like a detective reviewing new evidence and adjusting the investigation plan.">Replanner</span> and the rest of the graph, reading the <span class="term" data-definition="A data structure that stores key-value pairs — like a real dictionary where you look up a word (key) to find its definition (value). Also called a dict in Python.">dictionary</span>-based <span class="term" data-definition="The shared data that flows through each step of the workflow, like a whiteboard that every team member can read from and write to.">state</span> and deciding: <em>keep going, or stop?</em>
+        </p>
+
+        <p>
+          This is the most common place for bugs to hide — not because the code is wrong, but because the AI's decision at this junction depends on what's in the state. Look at what actually happens:
+        </p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code>
+<span class="code-line">        <span class="code-comment"># replanner 的条件边</span></span>
+<span class="code-line">        <span class="code-keyword">def</span> <span class="code-function">should_continue</span>(<span class="code-property">state</span>: <span class="code-property">PlanExecuteState</span>) -> <span class="code-property">str</span>:</span>
+<span class="code-line">            <span class="code-string">"""判断是否继续执行"""</span></span>
+<span class="code-line">            <span class="code-comment"># 如果已经生成了最终响应，结束</span></span>
+<span class="code-line">            <span class="code-keyword">if</span> state.<span class="code-function">get</span>(<span class="code-string">"response"</span>):</span>
+<span class="code-line">                logger.<span class="code-function">info</span>(<span class="code-string">"已生成最终响应，结束流程"</span>)</span>
+<span class="code-line">                <span class="code-keyword">return</span> <span class="code-property">END</span></span>
+<span class="code-line"></span>
+<span class="code-line">            <span class="code-comment"># 如果还有计划步骤，继续执行</span></span>
+<span class="code-line">            plan = state.<span class="code-function">get</span>(<span class="code-string">"plan"</span>, [])</span>
+<span class="code-line">            <span class="code-keyword">if</span> plan:</span>
+<span class="code-line">                logger.<span class="code-function">info</span>(<span class="code-string">f"继续执行，剩余 {len(plan)} 个步骤"</span>)</span>
+<span class="code-line">                <span class="code-keyword">return</span> <span class="code-property">NODE_EXECUTOR</span></span>
+<span class="code-line"></span>
+<span class="code-line">            <span class="code-comment"># 计划为空但没有响应，返回 replanner 生成响应</span></span>
+<span class="code-line">            logger.<span class="code-function">info</span>(<span class="code-string">"计划执行完毕，生成最终响应"</span>)</span>
+<span class="code-line">            <span class="code-keyword">return</span> <span class="code-property">END</span></span>
+<span class="code-line"></span>
+<span class="code-line">        workflow.<span class="code-function">add_conditional_edges</span>(</span>
+<span class="code-line">            <span class="code-property">NODE_REPLANNER</span>,</span>
+<span class="code-line">            should_continue,</span>
+<span class="code-line">            {</span>
+<span class="code-line">                <span class="code-property">NODE_EXECUTOR</span>: <span class="code-property">NODE_EXECUTOR</span>,</span>
+<span class="code-line">                <span class="code-property">END</span>: <span class="code-property">END</span></span>
+<span class="code-line">            }</span>
+<span class="code-line">        )</span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><em>(Comment: the Replanner's conditional edge — the decision point.)</em></p>
+              <p class="tl">Define a function called <strong>should_continue</strong> that reads the current state and decides where to go next.</p>
+              <p class="tl"><em>(Docstring: "Determine whether to continue.")</em></p>
+              <p class="tl"><em>(Comment: if a response already exists, stop.)</em></p>
+              <p class="tl">Check if the <code>response</code> field is filled — if yes, someone already wrote the answer.</p>
+              <p class="tl">Log: "Final response generated, ending flow."</p>
+              <p class="tl">Return <code>END</code> — the workflow is done. This is the exit door.</p>
+              <p class="tl"></p>
+              <p class="tl"><em>(Comment: if there are still plan steps, continue.)</em></p>
+              <p class="tl">Read the <code>plan</code> field. If there are steps remaining...</p>
+              <p class="tl">Log how many steps are left.</p>
+              <p class="tl">Return <code>NODE_EXECUTOR</code> — send the work back to the <span class="term" data-definition="The component in the system that actually runs each step of the plan — like a field agent who goes out and gathers evidence.">Executor</span> for another round.</p>
+              <p class="tl"></p>
+              <p class="tl"><em>(Comment: no plan remaining, generate the response.)</em></p>
+              <p class="tl">Log that the plan is exhausted and a response is needed.</p>
+              <p class="tl">Return <code>END</code> — the Replanner will generate the final answer.</p>
+              <p class="tl"></p>
+              <p class="tl">Wire up this decision function as a <span class="term" data-definition="A connection in a workflow graph that can take different paths depending on the current state, like a traffic light that directs data to different routes based on conditions.">conditional edge</span> from the Replanner node.</p>
+              <p class="tl">After the Replanner finishes, call <strong>should_continue</strong>.</p>
+              <p class="tl"></p>
+              <p class="tl">If the result is <code>NODE_EXECUTOR</code>, loop back.</p>
+              <p class="tl">If the result is <code>END</code>, stop here.</p>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          See the pattern? The function checks two things: <code>response</code> (is there an answer?) and <code>plan</code> (is there more work?). If the Replanner never writes <code>response</code> and keeps adding to <code>plan</code>, this <span class="term" data-definition="A connection in a workflow graph that can take different paths depending on the current state, like a traffic light that directs data to different routes based on conditions.">conditional edge</span> sends the <span class="term" data-definition="The path data takes through a graph, determined by which edges are followed at each decision point.">route</span> back to Executor forever. That's where bugs come alive.
+        </p>
+      </section>
+
+      <!-- ═══ SCREEN 3 — SCENARIO QUIZZES 1 & 2 ═══ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Debugging Files</h2>
+
+        <p>
+          Three real incidents. For each one, the symptoms are described below — your job is to identify what went wrong and which component is responsible. Think like a detective, not a mechanic.
+        </p>
+
+        <div class="quiz-container animate-in" id="quiz-module6-1">
+
+          <!-- SCENARIO 1 -->
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Case File #1</span>
+              <p>Your system is investigating a server CPU spike. After 45 minutes and 34 completed steps, the user is still waiting. The <span class="term" data-definition="A record of events that happen while software runs, like a ship's captain logbook. Used to trace what happened when something went wrong.">logs</span> show the <span class="term" data-definition="The component in the system that evaluates results and decides what to do next — like a detective reviewing new evidence and adjusting the investigation plan.">Replanner</span> repeatedly saying "继续执行" and the plan keeps growing. No <code>response</code> has ever been written to the <span class="term" data-definition="The shared data that flows through each step of the workflow, like a whiteboard that every team member can read from and write to.">state</span>.</p>
+            </div>
+            <div class="quiz-question-block"
+                 data-correct="option-b"
+                 data-explanation-right="Exactly! The Replanner's prompt doesn't tell it when to stop — it keeps deciding to replan instead of respond. The fix is adjusting the prompt to include a clear stopping condition or a MAX_STEPS limit. The code is fine; it's the AI's decision-making that's stuck in a loop."
+                 data-explanation-wrong="Not quite. Look at what the Replanner is doing — it keeps choosing 'replan' over 'respond'. The code logic works correctly; the issue is what the AI is being told to prioritize. The prompt controls the decision.">
+              <div class="quiz-options">
+                <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Executor keeps failing silently, so work is never actually completed</span>
+                </button>
+                <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Replanner's prompt doesn't tell it when to stop — it keeps choosing 'replan' over 'respond'</span>
+                </button>
+                <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The monitoring API is rate-limiting the Executor, slowing everything down</span>
+                </button>
+                <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The state schema is missing the 'response' field, so it can never be set</span>
+                </button>
+              </div>
+              <div class="quiz-feedback"></div>
+            </div>
+          </div>
+
+          <!-- SCENARIO 2 -->
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Case File #2</span>
+              <p>A junior engineer runs a diagnosis for a database slowdown. The system completes in just 3 steps and produces a report that only mentions "check slow query logs" — completely missing the root cause. The engineer expected the system to check memory, disk I/O, and connection pools before drawing a conclusion. The <span class="term" data-definition="The shared data that flows through each step of the workflow, like a whiteboard that every team member can read from and write to.">state</span> shows <code>past_steps</code> only has 2 entries.</p>
+            </div>
+            <div class="quiz-question-block"
+                 data-correct="option-c"
+                 data-explanation-right="Bingo. The Replanner is too aggressive about choosing 'respond' — it stops the investigation after the minimum number of steps, producing a shallow report. The fix is adjusting the Replanner prompt to require more thorough evidence before declaring the job done."
+                 data-explanation-wrong="Think about which component decides when to stop collecting data. The Executor just runs steps, the Planner creates the initial plan — but the Replanner is the one that decides the investigation is complete.">
+              <div class="quiz-options">
+                <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Planner only generated 3 steps — it was too conservative from the start</span>
+                </button>
+                <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Executor could only handle 3 steps before timing out</span>
+                </button>
+                <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Replanner chose 'respond' too early, ending the investigation prematurely</span>
+                </button>
+                <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The database was actually fine — the report was correct, just short</span>
+                </button>
+              </div>
+              <div class="quiz-feedback"></div>
+            </div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module6-1')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module6-1')">Try Again</button>
+        </div>
+      </section>
+
+      <!-- ═══ SCREEN 4 — SCENARIO 3 + BONUS MCQs ═══ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">When Bad Data Propagates</h2>
+
+        <p>
+          Some bugs are silent — they don't crash the system, they just corrupt the result. The most dangerous bugs are the ones that look like everything is working. Here's the trickiest scenario of the three.
+        </p>
+
+        <div class="quiz-container animate-in" id="quiz-module6-2">
+
+          <!-- SCENARIO 3 -->
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Case File #3</span>
+              <p>The <span class="term" data-definition="The component in the system that actually runs each step of the plan — like a field agent who goes out and gathers evidence.">Executor</span> fails on step 1 — "Check CPU metrics" — because the monitoring API returns an <span class="term" data-definition="An error that occurs while a program is running, like if you try to open a file that doesn't exist or divide by zero.">exception</span>. But instead of stopping, the system continues to step 2 "Check error logs" and produces a report based on incomplete data. The logs show the error clearly, but the system never alerts anyone.</p>
+            </div>
+            <div class="quiz-question-block"
+                 data-correct="option-b"
+                 data-explanation-right="That's the problem. The Executor's error handling (in executor.py lines 102-107) catches the exception and returns a result object with an error message in past_steps. But the Replanner doesn't distinguish between a successful step result and a failure message — it just sees 'task completed' and moves on. The failure silently propagates."
+                 data-explanation-wrong="Remember how the Executor handles errors — look at executor.py. It catches the exception but still returns a modified state. The error message goes into past_steps, but the Replanner treats the step as 'done' and continues. The issue is about error propagation, not about crashing or retrying.">
+              <div class="quiz-options">
+                <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Executor crashes completely — the system has a bug that prevents clean shutdown</span>
+                </button>
+                <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The exception handler returns a partial state, and the Replanner doesn't check past_steps for failure markers — bad data <span class="term" data-definition="When an error or piece of data moves from one part of the system downstream to another, causing cascading effects.">propagates</span> silently</span>
+                </button>
+                <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The monitoring API eventually returns data on retry, so the error was harmless</span>
+                </button>
+                <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Planner created a fallback plan that bypasses the failed step</span>
+                </button>
+              </div>
+              <div class="quiz-feedback"></div>
+            </div>
+          </div>
+
+          <!-- BONUS MCQ 1 -->
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Cold Case</span>
+              <p>The diagnosis report contains correct data — all the numbers are accurate — but the formatting is broken: the text is garbled, sections are missing, and conclusions are hard to read. The data pipeline worked perfectly; something went wrong at the very end.</p>
+            </div>
+            <div class="quiz-question-block"
+                 data-correct="option-a"
+                 data-explanation-right="Right. The data is correct, so the Executor and Planner did their jobs. The Replanner is responsible for generating the final response — it composes the report text. If the data is right but the formatting is wrong, the bug is in how the Replanner constructs its output."
+                 data-explanation-wrong="Think about which component is responsible for writing the final response. The Planner creates the plan, the Executor gathers data — but the Replanner is the one that assembles the final report. If the data is correct but the report looks wrong, look at who writes the report.">
+              <div class="quiz-options">
+                <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Replanner — it constructs the final response. The prompt needs better formatting instructions</span>
+                </button>
+                <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Executor — it returned bad data that corrupted the report</span>
+                </button>
+                <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The Planner — it created a bad plan that led to disorganized data</span>
+                </button>
+                <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The <span class="term" data-definition="The shared data that flows through each step of the workflow, like a whiteboard that every team member can read from and write to.">state</span> — a corrupted state causes formatting issues</span>
+                </button>
+              </div>
+              <div class="quiz-feedback"></div>
+            </div>
+          </div>
+
+          <!-- BONUS MCQ 2 -->
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Cold Case</span>
+              <p>The app returns an empty response — no error, no crash, just blank. The user sees nothing. The <span class="term" data-definition="A record of events that happen while software runs, like a ship's captain logbook. Used to trace what happened when something went wrong.">logs</span> show the workflow ran to completion but the final output was <code>None</code>.</p>
+            </div>
+            <div class="quiz-question-block"
+                 data-correct="option-c"
+                 data-explanation-right="Exactly. The state is your first stop. Inspect plan (was it ever created?), past_steps (did any steps execute?), and response (is it empty or null?). The state tells you exactly where the pipeline went silent. Most debugging sessions start with one question: 'What's in the state right now?'"
+                 data-explanation-wrong="The system didn't crash, so there's no crash to debug. And reading code won't help because the code might be fine — the issue is what happened at runtime. The first question should be: what does the state look like at the moment of failure?">
+              <div class="quiz-options">
+                <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>Check the server logs for a crash — something must have crashed silently</span>
+                </button>
+                <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>Read the Executor code line by line — the bug is probably in the step execution</span>
+                </button>
+                <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>Inspect the <span class="term" data-definition="The shared data that flows through each step of the workflow, like a whiteboard that every team member can read from and write to.">state</span> — check what <code>plan</code>, <code>past_steps</code>, and <code>response</code> contain at the point of failure</span>
+                </button>
+                <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>Restart the server — it's probably a transient glitch</span>
+                </button>
+              </div>
+              <div class="quiz-feedback"></div>
+            </div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module6-2')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module6-2')">Try Again</button>
+        </div>
+      </section>
+
+      <!-- ═══ SCREEN 5 — CALLOUT + COURSE WRAP-UP ═══ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Secret Weapon</h2>
+
+        <div class="callout callout-accent animate-in">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">The State Is Your Black Box</strong>
+            <p>The most powerful debugging tool in <span class="term" data-definition="A framework that connects AI agent components into a workflow graph, where each node is a processing step and edges define the flow between them.">LangGraph</span> is the <span class="term" data-definition="The practice of examining the current data in a workflow at a specific point in time. Like pausing a movie to see exactly what's on screen.">state</span>. At any point, you can inspect <code>plan</code>, <code>past_steps</code>, and <code>response</code> to understand exactly what the agent is thinking. Most bugs become obvious the moment you look at the state at the moment of failure — the data tells you everything: what the agent knew, what it decided, and why.</p>
+          </div>
+        </div>
+
+        <!-- COURSE WRAP-UP -->
+        <div class="wrap-up animate-in" style="margin-top: var(--space-12); padding: var(--space-8); background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); text-align: center; border: 2px solid var(--color-accent);">
+          <div style="font-size: 3rem; margin-bottom: var(--space-4);">&#x1F3C6;</div>
+          <h3 style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; color: var(--color-accent); margin-bottom: var(--space-3);">You Made It!</h3>
+          <p style="font-size: var(--text-lg); color: var(--color-text-secondary); max-width: 600px; margin: 0 auto var(--space-8);">
+            You have completed all six modules. Here is what you can now do:
+          </p>
+
+          <div class="icon-rows stagger-children" style="max-width: 600px; margin: 0 auto;">
+            <div class="icon-row animate-in">
+              <div class="icon-circle" style="background: var(--color-accent);">&#x1F9E0;</div>
+              <div style="text-align: left;">
+                <strong>Steer AI Like an Architect</strong>
+                <p>You know the core <span class="term" data-definition="The overall design and structure of a software system, like a blueprint that shows how all the pieces fit together.">architecture</span> — the three roles, the state graph, and how data flows through each <span class="term" data-definition="A single processing step in a workflow graph, like a station on an assembly line that performs one specific job.">node</span>. You can guide an AI coding agent to build systems using proven agent patterns.</p>
+              </div>
+            </div>
+
+            <div class="icon-row animate-in">
+              <div class="icon-circle" style="background: var(--color-actor-3);">&#x1F50D;</div>
+              <div style="text-align: left;">
+                <strong>Debug State Graphs</strong>
+                <p>You know how to trace state through the graph — inspecting <code>plan</code>, <code>past_steps</code>, and <code>response</code> at each decision point to understand why the AI made the choices it did. The <span class="term" data-definition="The shared data that flows through each step of the workflow, like a whiteboard that every team member can read from and write to.">state</span> is your <span class="term" data-definition="Another name for a flight data recorder. Also used in engineering to describe a system whose internal workings are hidden — you only see inputs and outputs.">black box</span>.</p>
+              </div>
+            </div>
+
+            <div class="icon-row animate-in">
+              <div class="icon-circle" style="background: var(--color-actor-5);">&#x1F4CB;</div>
+              <div style="text-align: left;">
+                <strong>Choose the Right Pattern</strong>
+                <p>You understand the Plan-Execute-Replan <span class="term" data-definition="A widely-used solution to a common problem in software design, like a recipe that's been tested and refined over time.">pattern</span> — when to use it, how to <span class="term" data-definition="A fallback mechanism that catches failures or prevents runaway behavior, like a safety harness for a tightrope walker.">safeguard</span> it, and how to diagnose when it goes wrong. You can build agent systems that adapt, recover, and deliver.</p>
+              </div>
+            </div>
+          </div>
+
+          <p style="margin-top: var(--space-8); color: var(--color-text-secondary); font-style: italic;">
+            Now go build something that breaks — so you can fix it.
+          </p>
+        </div>
+      </section>
+
+    </div><!-- /.module-body -->
+  </div><!-- /.module-content -->
+</section>

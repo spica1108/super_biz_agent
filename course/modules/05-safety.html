@@ -1,0 +1,314 @@
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+
+    <!-- ===== MODULE HEADER ===== -->
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">The Safety Nets</h1>
+      <p class="module-subtitle">Invisible <span class="term" data-definition="Safety limits built into code that prevent a system from behaving badly — like guardrails on a highway that stop your car from going off the edge.">guardrails</span> that keep AI from spiraling into chaos</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- ============================================================ -->
+      <!-- SCREEN 1: Introduction + 4 Pattern Cards                     -->
+      <!-- ============================================================ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Four Safety Nets</h2>
+
+        <p>Think of these like training wheels that auto-deploy when you start wobbling. Most of the time you don't see them — but they're always there, ready to catch you before you fall.</p>
+
+        <p><span class="term" data-definition="An early, rough version of a product built to test ideas — like a clay model of a car before the real factory build.">Prototype</span> AI is easy. <span class="term" data-definition="The live, real-world version of a system that actual users interact with — the opposite of a test or demo environment.">production</span> AI needs <span class="term" data-definition="Safety limits built into code that prevent a system from behaving badly — like guardrails on a highway that stop your car from going off the edge.">guardrails</span>. SuperBizAgent has four hard safety limits that force the AI to eventually give you an answer — even if it's not perfect.</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">🛑</div>
+            <h4 class="pattern-title">MAX_STEPS Limit</h4>
+            <p class="pattern-desc">Forces a final answer after 8 total steps. No matter what the agent wants to do next — it's done. The ultimate last resort.</p>
+          </div>
+
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🚫</div>
+            <h4 class="pattern-title">Replan Ban After 5</h4>
+            <p class="pattern-desc">After 5 executed steps, the agent cannot choose "replan." It must either continue or respond. Prevents endless strategy pivots.</p>
+          </div>
+
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">📏</div>
+            <h4 class="pattern-title">Step Count Shrink</h4>
+            <p class="pattern-desc">When the agent replans, the new plan can't have more steps than the old one had remaining. Prevents the agent from stalling forever.</p>
+          </div>
+
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">✂️</div>
+            <h4 class="pattern-title">Message Trimming</h4>
+            <p class="pattern-desc">Limits conversation history to the system prompt + recent messages. Prevents the AI's memory from overflowing and crashing the session.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SCREEN 2: MAX_STEPS Code Translation                          -->
+      <!-- ============================================================ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Hard Stop: MAX_STEPS</h2>
+
+        <p>The most important safety net is also the simplest: a hard cap on how many steps the agent can take. Without this, an <span class="term" data-definition="An AI system that can independently plan and execute steps to accomplish a goal — like a personal assistant who doesn't need hand-holding for every task.">agent</span> that keeps choosing "replan" would run <span class="term" data-definition="A situation where code repeats the same steps forever without ever reaching a stopping point — like a broken elevator that goes up and down without ever opening its doors.">infinite loops</span>, burning through your <span class="term" data-definition="In this context, the amount of resources or money allocated for running an AI system — like a monthly spending cap.">API budget</span>.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code>
+<span class="code-line">    <span class="code-comment"># ⚠️ 强制限制：如果已执行步骤过多，直接生成响应</span></span>
+<span class="code-line">    <span class="code-property">MAX_STEPS</span> = <span class="code-number">8</span></span>
+<span class="code-line">    <span class="code-keyword">if</span> <span class="code-function">len</span>(past_steps) >= MAX_STEPS:</span>
+<span class="code-line">        logger.<span class="code-function">warning</span>(<span class="code-string">f"已执行 {len(past_steps)} 个步骤，超过最大限制 {MAX_STEPS}，强制生成最终响应"</span>)</span>
+<span class="code-line">        llm = llm_factory.<span class="code-function">create_chat_model</span>(<span class="code-property">temperature</span>=<span class="code-number">0</span>, <span class="code-property">streaming</span>=<span class="code-keyword">False</span>)</span>
+<span class="code-line">        <span class="code-keyword">return</span> <span class="code-keyword">await</span> <span class="code-function">_generate_response</span>(state, llm)</span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">⚠️ Warning: this is a hard limit — if too many steps have run, force an answer right now.</p>
+              <p class="tl">Set the ceiling: 8 steps maximum, then we stop no matter what.</p>
+              <p class="tl">Check: have we hit or passed that ceiling?</p>
+              <p class="tl">Log a warning so the developer knows this guardrail just activated.</p>
+              <p class="tl">Swap to a boring, predictable AI mode — no creativity, no streaming, just a straight answer.</p>
+              <p class="tl">Force a final response. The agent's exploration ends here.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-text-secondary);">This is from <code>app/agent/aiops/replanner.py</code>, lines 128–134. Five lines of code that prevent infinite loops.</p>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SCREEN 3: Spot the Bug Challenge                              -->
+      <!-- ============================================================ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Find the Missing Guardrail</h2>
+
+        <p>Here's the same <span class="term" data-definition="An AI system that can independently plan and execute steps to accomplish a goal — like a personal assistant who doesn't need hand-holding for every task.">agent</span> — but the developer forgot to add the MAX_STEPS check. Can you spot where the safety net is missing?</p>
+
+        <div class="bug-challenge">
+          <h3>What's wrong with this code?</h3>
+          <div class="bug-code">
+
+            <div class="bug-line" data-line="1" onclick="checkBugLine(this, false)">
+              <span class="line-num">1</span>
+              <code><span class="code-keyword">async def</span> <span class="code-function">process_action</span>(state):</code>
+            </div>
+
+            <div class="bug-line" data-line="2" onclick="checkBugLine(this, false)">
+              <span class="line-num">2</span>
+              <code>    action = <span class="code-keyword">await</span> <span class="code-function">decide_next</span>(state)</code>
+            </div>
+
+            <div class="bug-line" data-line="3" onclick="checkBugLine(this, false)">
+              <span class="line-num">3</span>
+              <code>    <span class="code-keyword">if</span> action == <span class="code-string">"respond"</span>:</code>
+            </div>
+
+            <div class="bug-line" data-line="4" onclick="checkBugLine(this, false)">
+              <span class="line-num">4</span>
+              <code>        <span class="code-keyword">return</span> <span class="code-keyword">await</span> <span class="code-function">respond</span>(state)</code>
+            </div>
+
+            <div class="bug-line" data-line="5" onclick="checkBugLine(this, false)">
+              <span class="line-num">5</span>
+              <code>    <span class="code-keyword">elif</span> action == <span class="code-string">"continue"</span>:</code>
+            </div>
+
+            <div class="bug-line" data-line="6" onclick="checkBugLine(this, false)">
+              <span class="line-num">6</span>
+              <code>        <span class="code-keyword">return</span> <span class="code-keyword">await</span> <span class="code-function">execute_next</span>(state)</code>
+            </div>
+
+            <div class="bug-line bug-target" data-line="7" onclick="checkBugLine(this, true)">
+              <span class="line-num">7</span>
+              <code>    <span class="code-keyword">elif</span> action == <span class="code-string">"replan"</span>:</code>
+            </div>
+
+            <div class="bug-line" data-line="8" onclick="checkBugLine(this, false)">
+              <span class="line-num">8</span>
+              <code>        <span class="code-keyword">return</span> <span class="code-keyword">await</span> <span class="code-function">replan</span>(state)</code>
+            </div>
+
+          </div>
+
+          <div class="bug-feedback" id="bug-feedback-5">
+            <strong>Found it!</strong> Without the MAX_STEPS check, the <span class="term" data-definition="A decision by the AI agent to throw away its current plan and create a new one from scratch — like changing your route mid-trip because of traffic.">replan</span> branch can run forever. Every replan generates a new plan, which gets executed, which triggers another replan — and there's no escape hatch to force a final answer. The <span class="term" data-definition="Safety limits built into code that prevent a system from behaving badly — like guardrails on a highway that stop your car from going off the edge.">guardrail</span> at lines 128–134 is what stops this <span class="term" data-definition="A situation where code repeats the same steps forever without ever reaching a stopping point — like a broken elevator that goes up and down without ever opening its doors.">infinite loop</span>.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SCREEN 4: Message Trimming Translation                        -->
+      <!-- ============================================================ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Keeping the Desk Clean</h2>
+
+        <p>Every message the AI sees takes up space in its <span class="term" data-definition="The amount of text an AI model can 'see' at once — like a desk that can only hold so many papers. When the desk is full, old papers are pushed off.">context window</span>. After a long conversation, that window overflows and the AI forgets what's happening. This <span class="term" data-definition="A function that sits between parts of a system to transform or filter data — like a water filter between the pipe and your glass.">middleware</span> keeps the AI's desk clean by trimming old messages while preserving the <span class="term" data-definition="The special instruction at the start of a conversation that tells the AI how to behave — like the rules you give a babysitter before leaving the house.">system prompt</span>.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">trim_messages_middleware</span>(state: AgentState) -> dict[str, Any] | <span class="code-keyword">None</span>:</span>
+<span class="code-line">    messages = state[<span class="code-string">"messages"</span>]</span>
+<span class="code-line">    <span class="code-comment"># 如果消息数量较少，无需修剪</span></span>
+<span class="code-line">    <span class="code-keyword">if</span> <span class="code-function">len</span>(messages) <= <span class="code-number">7</span>:</span>
+<span class="code-line">        <span class="code-keyword">return</span> <span class="code-keyword">None</span></span>
+<span class="code-line">    <span class="code-comment"># 提取第一条系统消息</span></span>
+<span class="code-line">    first_msg = messages[<span class="code-number">0</span>]</span>
+<span class="code-line">    <span class="code-comment"># 保留最近的 6 条消息</span></span>
+<span class="code-line">    recent_messages = messages[<span class="code-number">-6</span>:] <span class="code-keyword">if</span> <span class="code-function">len</span>(messages) % <span class="code-number">2</span> == <span class="code-number">0</span> <span class="code-keyword">else</span> messages[<span class="code-number">-7</span>:]</span>
+<span class="code-line">    <span class="code-comment"># 构建新的消息列表</span></span>
+<span class="code-line">    new_messages = [first_msg] + <span class="code-function">list</span>(recent_messages)</span>
+<span class="code-line">    <span class="code-keyword">return</span> {<span class="code-string">"messages"</span>: [<span class="code-function">RemoveMessage</span>(<span class="code-property">id</span>=REMOVE_ALL_MESSAGES), *new_messages]}</span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Define a function that checks and trims the conversation history when it gets too long.</p>
+              <p class="tl">Grab the full message history from the current state.</p>
+              <p class="tl">If there aren't many messages, no trimming needed.</p>
+              <p class="tl">7 or fewer? Don't touch anything. Exit early.</p>
+              <p class="tl">Nothing to do — return without changes.</p>
+              <p class="tl">Save the system instruction — it tells the AI how to behave.</p>
+              <p class="tl">The first message is always the <span class="term" data-definition="The special instruction at the start of a conversation that tells the AI how to behave — like the rules you give a babysitter before leaving the house.">system prompt</span>.</p>
+              <p class="tl">Keep only the most recent messages.</p>
+              <p class="tl">Grab the last 6-7 messages — preserving the user-assistant pairing structure.</p>
+              <p class="tl">Build the trimmed list.</p>
+              <p class="tl">System prompt first, then recent history — drop everything in between.</p>
+              <p class="tl">Replace the bloated original with the new, shorter message list.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-text-secondary);">From <code>app/services/rag_agent_service.py</code>, lines 37–74. A <span class="term" data-definition="A function that sits between parts of a system to transform or filter data — like a water filter between the pipe and your glass.">middleware</span> that silently prevents <span class="term" data-definition="The amount of text an AI model can 'see' at once — like a desk that can only hold so many papers. When the desk is full, old papers are pushed off.">context window</span> overflow.</p>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SCREEN 5: Callout + Quiz                                      -->
+      <!-- ============================================================ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Art of Choosing Limits</h2>
+
+        <p>These guardrails look simple, but each number — 8 steps, 5 replans, 7 messages — represents real production wisdom earned the hard way. Get them wrong and the agent either gives up too early or wastes resources without bound.</p>
+
+        <!-- Callout Box -->
+        <div class="callout callout-accent animate-in">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Key Insight</strong>
+            <p>Every safety limit is a <span class="term" data-definition="A design compromise where you give up one quality in exchange for another — like choosing between a fast-but-risky shortcut and a slow-but-safe detour.">tradeoff</span>. Too strict → the agent gives up too early with incomplete info. Too loose → the agent burns time and money without getting better results. The numbers 8 and 5 in this codebase were chosen by the developer based on experience — there's no 'correct' answer, only tradeoffs.</p>
+          </div>
+        </div>
+
+        <!-- Quiz -->
+        <div class="quiz-container" id="quiz-module5" style="margin-top: var(--space-10)">
+
+          <h3 style="font-family: var(--font-display); font-weight: 600; font-size: var(--text-xl); margin-bottom: var(--space-6);">Check Your Understanding</h3>
+
+          <!-- Quiz Question 1 -->
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly! Every safety limit is a tradeoff. Set it too low (3) and the agent gives up before it can find the right approach. Set it too high (10) and the agent replans endlessly, burning time and API calls. The developer chose 5 through hard-won experience."
+               data-explanation-wrong="Not quite — the key insight is that safety limits are deliberate tradeoffs. The number 5 was chosen to balance two risks: giving up too early (too low) vs. wasting resources on endless replanning (too high). It's not arbitrary."
+               style="margin-bottom: var(--space-8);">
+
+            <h4 class="quiz-question">1. Why does the Replanner ban <code>replan</code> after 5 executed steps, instead of 3 or 10?</h4>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>3 is the standard across all AI agent frameworks — it matches user patience research.</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>10 would be too many because the developer only allocates 10 API calls per session.</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>5 balances giving the agent enough room to course-correct against preventing it from burning resources on endless replanning.</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The choice is arbitrary — any number would produce the same behavior.</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <!-- Quiz Question 2 -->
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! The <span class='term' data-definition=\"The special instruction at the start of a conversation that tells the AI how to behave — like the rules you give a babysitter before leaving the house.\">system prompt</span> is the foundation — it's the rulebook the AI follows. Recent messages are the active conversation. Everything in between is history that adds marginal value. This is a smart tradeoff between keeping context and staying within the <span class='term' data-definition=\"The amount of text an AI model can 'see' at once — like a desk that can only hold so many papers. When the desk is full, old papers are pushed off.\">context window</span> limit."
+               data-explanation-wrong="Not quite — the <span class='term' data-definition=\"The special instruction at the start of a conversation that tells the AI how to behave — like the rules you give a babysitter before leaving the house.\">system prompt</span> is the most important message because it tells the AI how to behave. Recent messages contain the active conversation. Middle messages are the least critical — the trimmer keeps what matters and drops what doesn't."
+               style="margin-bottom: var(--space-8);">
+
+            <h4 class="quiz-question">2. The message trimmer always keeps the first message (the system prompt) and the most recent 6-7 messages, dropping everything in between. Why does it preserve the system prompt specifically?</h4>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>System prompts contain user authentication data that must be kept for every request.</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The system prompt defines the AI's behavior and constraints — without it, the AI would lose its instructions. Recent messages provide current context. Middle messages add the least value.</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It's actually a bug in the code — the system prompt shouldn't be preserved, but the developer made a mistake.</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>System prompts are always shorter than user messages, so keeping them saves more tokens.</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <!-- Quiz Question 3 -->
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Exactly! This is the same principle as MAX_STEPS — a hard limit that forces the agent to conclude, adapted to time instead of step count. The core insight: every agent needs a forcing function to stop refining and deliver an answer."
+               data-explanation-wrong="Not quite — this scenario calls for a time-based equivalent of MAX_STEPS. The key lesson is that every agent system needs a hard limit that forces a conclusion, adapted to your specific constraints (steps, time, cost, etc.)."
+               style="margin-bottom: var(--space-6);">
+
+            <h4 class="quiz-question">3. You're deploying an AI code review agent. After 3 minutes, it's reviewed 2 files but keeps finding more to review. Your team needs a decision within 5 minutes. Which guardrail should you prioritize adding?</h4>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A time-based MAX_STEPS that forces a summary after 4 minutes, regardless of how many files remain.</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Remove the file-scanning ability so the agent can only review files it's explicitly given.</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Switch to a more powerful AI model that can review files faster.</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Increase the AI's context window so it can hold more file content at once.</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')" style="margin-left: var(--space-3);">Try Again</button>
+
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+</section>
