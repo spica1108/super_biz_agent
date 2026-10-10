@@ -95,3 +95,25 @@ dmypy.json
 bench/active_scenario.json
 bench/results/
 简历.md
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# Generated files and local runtime data
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.understand-anything/
+.zread/
+logs/
+uploads/
+volumes/
+*.egg-info/
+bench/active_scenario.json
+bench/results/
+简历.md
