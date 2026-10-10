@@ -1,0 +1,359 @@
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+
+    <!-- ═══ SCREEN 1 — OPENING / JOURNALIST METAPHOR ═══ -->
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">The Outside World</h1>
+      <p class="module-subtitle">APIs, databases, and why every external service is a ticking time bomb</p>
+    </header>
+
+    <div class="module-body">
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">A Journalist Writing a Story</h2>
+
+        <p>
+          Imagine a journalist reporting a breaking news story. They do not know everything by heart — they call sources on
+          the phone (which might not pick up), dig through newspaper archives (which could be incomplete), and consult
+          expert analysts (who might be busy or wrong).
+        </p>
+
+        <p>
+          That is exactly what this app does. It does not think in a vacuum — it reaches out to three external services
+          for help. And just like the journalist, <strong>every source can be unreliable</strong>.
+        </p>
+
+        <div class="icon-rows stagger-children" style="margin-top: var(--space-8);">
+          <div class="icon-row animate-in" style="border-left: 3px solid var(--color-actor-1);">
+            <div class="icon-circle" style="background: var(--color-actor-1);">&#x1F4DE;</div>
+            <div>
+              <strong>Calling Sources — <span class="term" data-definition="Application Programming Interface — a way for two pieces of software to talk to each other over the internet, like a phone line between programs.">APIs</span></strong>
+              <p>The app calls the <span class="term" data-definition="Large Language Model — an AI trained on vast amounts of text that can understand and generate human-like responses.">LLM</span> <span class="term" data-definition="An API that provides access to an AI model, so your app can send prompts and get intelligent responses without running the AI itself.">API</span> for AI reasoning — like phoning an expert analyst. If the line is busy or the expert is rate-limited, the app has to cope.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in" style="border-left: 3px solid var(--color-actor-2);">
+            <div class="icon-circle" style="background: var(--color-actor-2);">&#x1F4DA;</div>
+            <div>
+              <strong>Checking Archives — <span class="term" data-definition="A special kind of database that stores and searches data by meaning and similarity, not by exact matches — like a librarian who can find books similar to one you liked even if they don&apos;t share a single keyword.">Vector Database</span></strong>
+              <p>The app searches a <span class="term" data-definition="A database of vector embeddings that allows similarity search — finding the most relevant information for a given query based on meaning, not keywords.">vector database</span> for relevant context — like checking newspaper archives. If the archive is closed, the app answers from general knowledge alone.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in" style="border-left: 3px solid var(--color-actor-3);">
+            <div class="icon-circle" style="background: var(--color-actor-3);">&#x1F527;</div>
+            <div>
+              <strong>Consulting Experts — <span class="term" data-definition="Model Context Protocol — a standard way for AI agents to connect with external tools and services, like a universal plug adapter that fits any socket.">MCP</span> Tools</strong>
+              <p>The app uses <span class="term" data-definition="A standard for connecting AI agents to external tools, allowing the AI to call real-world services like databases, APIs, and monitoring systems.">MCP tools</span> to classify incidents and query live monitoring data — like asking a specialist to run diagnostics. If the specialist is off duty, the app detects it and keeps going.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: var(--space-8); font-size: var(--text-lg); font-family: var(--font-display); font-weight: 600; color: var(--color-accent);">
+          Each external service is a ticking time bomb. Let us look at the three the app relies on.
+        </p>
+      </section>
+
+      <!-- ═══ SCREEN 2 — ARCHITECTURE DIAGRAM ═══ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Three External Dependencies</h2>
+
+        <p>
+          The app talks to three outside services. Each has a specific job — and specific ways it can break.
+          <strong>Click any component</strong> to learn what it does and how it might fail.
+        </p>
+
+        <div class="arch-diagram animate-in" style="margin: var(--space-6) 0;">
+          <div style="text-align: center; margin-bottom: var(--space-6);">
+            <div style="display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-6); background: var(--color-surface); border: 2px solid var(--color-accent); border-radius: var(--radius-lg); font-family: var(--font-display); font-weight: 600; font-size: var(--text-lg);">
+              <span style="font-size: 2rem;">&#x1F916;</span>
+              SuperBizAgent
+            </div>
+            <div style="margin-top: var(--space-3); display: flex; justify-content: center; gap: var(--space-10); color: var(--color-text-muted); font-size: var(--text-lg);">
+              <span>&darr;</span>
+              <span>&darr;</span>
+              <span>&darr;</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4);">
+            <!-- Zone 1: LLM -->
+            <div class="arch-zone" style="background: var(--color-surface); border-radius: var(--radius-md); padding: var(--space-5); border: 1px solid var(--color-border);">
+              <h4 class="arch-zone-label" style="color: var(--color-actor-1); font-family: var(--font-display); font-size: var(--text-base); margin: 0 0 var(--space-3);">
+                &#x1F9E0; LLM <span style="color: var(--color-text-secondary); font-weight: 400;">(DashScope)</span>
+              </h4>
+              <div class="arch-component" data-desc="Provides the AI brain — it takes the user&apos;s question and context and generates intelligent, human-like responses. Model: qwen-max. <strong>Failure modes:</strong> rate limits, network timeout, invalid API key, model overloaded." onclick="showArchDesc(this)" style="cursor: pointer; padding: var(--space-3); border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); margin-bottom: var(--space-3); transition: border-color var(--duration-fast);" onmouseover="this.style.borderColor='var(--color-actor-1)'" onmouseout="this.style.borderColor=''">
+                <div class="arch-icon" style="display: inline-block; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: var(--color-actor-1); color: white; margin-right: var(--space-3);">Q</div>
+                <span style="font-weight: 500;">Qwen-Max LLM</span>
+                <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1);">AI reasoning &amp; generation</div>
+              </div>
+              <div class="arch-component" data-desc="Converts text into vector embeddings — lists of numbers that capture the meaning of words. This is used to find relevant documents in the vector database. Model: text-embedding-v4. <strong>Failure modes:</strong> rate limits, model temporarily unavailable, embedding dimension mismatch." onclick="showArchDesc(this)" style="cursor: pointer; padding: var(--space-3); border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); transition: border-color var(--duration-fast);" onmouseover="this.style.borderColor='var(--color-actor-1)'" onmouseout="this.style.borderColor=''">
+                <div class="arch-icon" style="display: inline-block; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: var(--color-actor-1); color: white; margin-right: var(--space-3);">E</div>
+                <span style="font-weight: 500;">Text Embedding v4</span>
+                <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1);">Text-to-vector conversion</div>
+              </div>
+            </div>
+
+            <!-- Zone 2: Vector Database -->
+            <div class="arch-zone" style="background: var(--color-surface); border-radius: var(--radius-md); padding: var(--space-5); border: 1px solid var(--color-border);">
+              <h4 class="arch-zone-label" style="color: var(--color-actor-2); font-family: var(--font-display); font-size: var(--text-base); margin: 0 0 var(--space-3);">
+                &#x1F5C3;&#xFE0F; Vector Database <span style="color: var(--color-text-secondary); font-weight: 400;">(Milvus)</span>
+              </h4>
+              <div class="arch-component" data-desc="Manages the connection to the Milvus vector database. Connects at startup and provides a live link to store and query vector embeddings. <strong>Failure modes:</strong> connection refused (Milvus not running), timeout after 10s, authentication failure." onclick="showArchDesc(this)" style="cursor: pointer; padding: var(--space-3); border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); margin-bottom: var(--space-3); transition: border-color var(--duration-fast);" onmouseover="this.style.borderColor='var(--color-actor-2)'" onmouseout="this.style.borderColor=''">
+                <div class="arch-icon" style="display: inline-block; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: var(--color-actor-2); color: white; margin-right: var(--space-3);">M</div>
+                <span style="font-weight: 500;">Milvus Client</span>
+                <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1);">Database connection manager</div>
+              </div>
+              <div class="arch-component" data-desc="Performs similarity search against stored embeddings. When a user asks a RAG question, this finds the most relevant documents by comparing meaning — not keywords. Returns top_k results. <strong>Failure modes:</strong> search timeout, empty collection, embedding dimension mismatch." onclick="showArchDesc(this)" style="cursor: pointer; padding: var(--space-3); border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); transition: border-color var(--duration-fast);" onmouseover="this.style.borderColor='var(--color-actor-2)'" onmouseout="this.style.borderColor=''">
+                <div class="arch-icon" style="display: inline-block; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: var(--color-actor-2); color: white; margin-right: var(--space-3);">S</div>
+                <span style="font-weight: 500;">Similarity Search</span>
+                <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1);">Find relevant documents</div>
+              </div>
+            </div>
+
+            <!-- Zone 3: MCP Tools -->
+            <div class="arch-zone" style="background: var(--color-surface); border-radius: var(--radius-md); padding: var(--space-5); border: 1px solid var(--color-border);">
+              <h4 class="arch-zone-label" style="color: var(--color-actor-3); font-family: var(--font-display); font-size: var(--text-base); margin: 0 0 var(--space-3);">
+                &#x1F527; MCP Tools <span style="color: var(--color-text-secondary); font-weight: 400;">(CLS + Monitor)</span>
+              </h4>
+              <div class="arch-component" data-desc="The Classification Server — an MCP server at port 8003 that classifies operational incidents into categories (e.g., CPU spike, memory leak, network issue). Uses the <span class='term' data-definition='The method a service uses to send and receive data over a network, like choosing between email vs. instant messaging — each has different tradeoffs for speed and reliability.'>transport</span> protocol streamable-http. <strong>Failure modes:</strong> server not running, transport connection error, classification timeout." onclick="showArchDesc(this)" style="cursor: pointer; padding: var(--space-3); border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); margin-bottom: var(--space-3); transition: border-color var(--duration-fast);" onmouseover="this.style.borderColor='var(--color-actor-3)'" onmouseout="this.style.borderColor=''">
+                <div class="arch-icon" style="display: inline-block; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: var(--color-actor-3); color: white; margin-right: var(--space-3);">C</div>
+                <span style="font-weight: 500;">CLS Server</span>
+                <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1);">Incident classification</div>
+              </div>
+              <div class="arch-component" data-desc="The Monitor Server — an MCP server at port 8004 that queries live Prometheus metrics (CPU, memory, disk) to diagnose incidents. Also uses streamable-http <span class='term' data-definition='The method a service uses to send and receive data over a network, like choosing between email vs. instant messaging — each has different tradeoffs for speed and reliability.'>transport</span>. <strong>Failure modes:</strong> server not running, Prometheus query timeout, metric data missing." onclick="showArchDesc(this)" style="cursor: pointer; padding: var(--space-3); border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); transition: border-color var(--duration-fast);" onmouseover="this.style.borderColor='var(--color-actor-3)'" onmouseout="this.style.borderColor=''">
+                <div class="arch-icon" style="display: inline-block; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: var(--color-actor-3); color: white; margin-right: var(--space-3);">M</div>
+                <span style="font-weight: 500;">Monitor Server</span>
+                <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1);">Metrics &amp; monitoring</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-description" id="arch-desc" style="margin-top: var(--space-5); padding: var(--space-4); background: var(--color-surface-warm); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--color-text-secondary); text-align: center;">
+            Click any component above to learn what it does and how it can fail
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ SCREEN 3 — CODE TRANSLATION ═══ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Graceful Degradation in Action</h2>
+
+        <p>
+          When the app starts up, it tries to connect to Milvus. But what if Milvus is not running? Instead of crashing
+          and burning, the app has a safety net. This is called <span class="term" data-definition="When a part of the system fails, the rest keeps working — maybe without some features or with reduced capabilities, but the app is still running and responding to users.">graceful degradation</span>: the core still works, just
+          without vector search.
+        </p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code>
+<span class="code-line"><span class="code-comment"># 连接 Milvus</span></span>
+<span class="code-line">logger.<span class="code-function">info</span>(<span class="code-string">"🔌 正在连接 Milvus..."</span>)</span>
+<span class="code-line"><span class="code-keyword">try</span>:</span>
+<span class="code-line">    milvus_manager.<span class="code-function">connect</span>()</span>
+<span class="code-line">    logger.<span class="code-function">info</span>(<span class="code-string">"✅ Milvus 连接成功"</span>)</span>
+<span class="code-line"><span class="code-keyword">except</span> <span class="code-property">Exception</span> <span class="code-keyword">as</span> e:</span>
+<span class="code-line">    <span class="code-keyword">if</span> <span class="code-keyword">not</span> config.<span class="code-property">allow_missing_external_services</span>:</span>
+<span class="code-line">        <span class="code-keyword">raise</span></span>
+<span class="code-line">    logger.<span class="code-function">warning</span>(<span class="code-string">f"Milvus 暂不可用，开发降级模式继续启动: {e}"</span>)</span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><em>(Comment: heading for this block of code — connecting to Milvus.)</em></p>
+              <p class="tl">Log that we are about to try connecting to the vector database.</p>
+              <p class="tl"><strong>try:</strong> Attempt this next operation, and if anything goes wrong, catch the error.</p>
+              <p class="tl">Execute the actual database connection — reach out to Milvus at the configured host and port.</p>
+              <p class="tl">If the connection succeeds, log a green checkmark and keep going.</p>
+              <p class="tl"><strong>except Exception as e:</strong> If anything at all goes wrong, catch the error instead of crashing.</p>
+              <p class="tl"><strong>if not allow_missing_external_services: raise</strong> — In production mode, crash because Milvus is required. In development mode, skip this.</p>
+              <p class="tl">This line runs if we are in development mode. Log a warning and <em>keep the app running</em> — this is graceful degradation.</p>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          The flag <code>allow_missing_external_services</code> is the key. In development, it lets the app start even
+          when Milvus is down — you can test everything except vector search. In production, the app fails fast because
+          there is no point running without a database.
+        </p>
+      </section>
+
+      <!-- ═══ SCREEN 4 — BADGE LIST + CALLOUT ═══ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Configuration Dashboard</h2>
+
+        <p>
+          Every external service needs <span class="term" data-definition="Short for &apos;configuration&apos; — settings that control how the application behaves without changing its code, like the settings panel on your phone that you can tweak without reprogramming it.">configuration</span>: an address to reach it, a port to connect to, and sometimes
+          a secret key. Here are the settings that tell the app where to find each service:
+        </p>
+
+        <div class="badge-list stagger-children animate-in" style="margin: var(--space-6) 0;">
+
+          <div class="badge-item animate-in">
+            <code class="badge-code">milvus_host</code>
+            <span class="badge-desc">The server address where Milvus is running — <code class="badge-value">localhost</code> means it is on the same machine</span>
+          </div>
+
+          <div class="badge-item animate-in">
+            <code class="badge-code">milvus_port</code>
+            <span class="badge-desc">The network port Milvus listens on — <code class="badge-value">19530</code> is the standard port</span>
+          </div>
+
+          <div class="badge-item animate-in">
+            <code class="badge-code">milvus_timeout</code>
+            <span class="badge-desc">How long to wait for Milvus before giving up — <code class="badge-value">10000ms</code> (10 seconds)</span>
+          </div>
+
+          <div class="badge-item animate-in">
+            <code class="badge-code">dashscope_api_key</code>
+            <span class="badge-desc">The <span class="term" data-definition="A secret code that proves your app has permission to use a service, like a keycard that unlocks a specific door. Never share it or commit it to version control.">API key</span> that authenticates your app to DashScope — loaded from the <code>.env</code> file</span>
+          </div>
+
+          <div class="badge-item animate-in">
+            <code class="badge-code">dashscope_model</code>
+            <span class="badge-desc">Which AI model to use for reasoning — <code class="badge-value">qwen-max</code> is the most capable</span>
+          </div>
+
+          <div class="badge-item animate-in">
+            <code class="badge-code">mcp_cls_url</code>
+            <span class="badge-desc">The web address of the Classification MCP server — <code class="badge-value">http://localhost:8003/mcp</code></span>
+          </div>
+
+          <div class="badge-item animate-in">
+            <code class="badge-code">mcp_monitor_url</code>
+            <span class="badge-desc">The web address of the Monitor MCP server — <code class="badge-value">http://localhost:8004/mcp</code></span>
+          </div>
+
+          <div class="badge-item animate-in">
+            <code class="badge-code">mcp_cls_transport</code>
+            <span class="badge-desc"><span class="term" data-definition="The method a service uses to send and receive data over a network — streamable-http is like a modern two-way radio that keeps the line open for quick back-and-forth messaging.">Transport</span> protocol for MCP communication — <code class="badge-value">streamable-http</code></span>
+          </div>
+        </div>
+
+        <div class="callout callout-accent animate-in" style="margin-top: var(--space-8);">
+          <div class="callout-icon">&#x26A0;&#xFE0F;</div>
+          <div class="callout-content">
+            <strong class="callout-title">The External Dependency Rule</strong>
+            <p>Every external service WILL fail at some point. The question is not "will it fail?" but <strong>"what does our app do when it fails?"</strong> Graceful degradation, <span class="term" data-definition="When a request fails, trying it again (often with a delay) in case the failure was temporary — like redialing a busy phone number.">retries</span>, <span class="term" data-definition="A maximum wait time for a service to respond. If the service does not answer within that time, the request is abandoned rather than waiting forever.">timeouts</span>, and <span class="term" data-definition="When a service fails, you wait a bit and retry. If it fails again, you wait longer — each wait time grows exponentially (1s, 2s, 4s, 8s...) to avoid overwhelming an already struggling server.">exponential backoff</span> are what separate production apps from hobby projects.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ SCREEN 5 — QUIZ ═══ -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">What Happens When Things Break?</h2>
+
+        <p>
+          Let us test your understanding with three real-world scenarios about external service failures.
+          Each one asks you to think about what the app actually does — not what it should do in an ideal world.
+        </p>
+
+        <div class="quiz-container animate-in" id="quiz-module4">
+
+          <!-- Q1: Milvus down + RAG question -->
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Scenario 1</span>
+              <p>The app started in development mode and Milvus was down at startup — the graceful degradation kicked in. Now a user asks a question that needs <span class="term" data-definition="Retrieval-Augmented Generation — a pattern where an AI first searches a database for relevant information, then uses that information to compose an accurate answer, like a student looking up facts before writing a report.">RAG</span> to answer well. The app has no vector search. What happens?</p>
+            </div>
+            <div class="quiz-question-block"
+                 data-correct="option-b"
+                 data-explanation-right="Exactly. The app ran its startup sequence, logged the warning, and is fully operational — minus vector search. When the user asks a RAG question, the search returns zero results, so the LLM answers from its general training alone. The answer may be less accurate, but the app does not crash or hang."
+                 data-explanation-wrong="Think about what graceful degradation actually means — the app is running, but without one of its services. What does a system do when asked to use a feature it knows is unavailable?">
+              <div class="quiz-options">
+                <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The app crashes because Milvus is essential for RAG</span>
+                </button>
+                <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The search returns empty results and the LLM answers from general knowledge only</span>
+                </button>
+                <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The app automatically starts Milvus when it detects the first RAG request</span>
+                </button>
+                <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The app enters an infinite retry loop trying to connect to Milvus on every search</span>
+                </button>
+              </div>
+              <div class="quiz-feedback"></div>
+            </div>
+          </div>
+
+          <!-- Q2: Rate limit on 3rd retry -->
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Scenario 2</span>
+              <p>DashScope&apos;s LLM API returns a <span class="term" data-definition="A cap on how many requests a service allows in a given time window, like a nightclub letting in only 50 people per hour. When hit, the API rejects further requests until the window resets.">rate limit</span> error. The <span class="term" data-definition="A function in the code that intercepts tool calls and can retry them if they fail — like a quality inspector who catches faulty parts and sends them back through the assembly line.">retry interceptor</span> has used all 3 attempts with <span class="term" data-definition="A retry strategy with growing wait times — 1 second, then 2, then 4 — to give overloaded services time to recover without making things worse.">exponential backoff</span> (1s, 2s, 4s). What happens after the third failed attempt?</p>
+            </div>
+            <div class="quiz-question-block"
+                 data-correct="option-b"
+                 data-explanation-right="The retry interceptor never lets exceptions escape. After all retries are exhausted, it returns a CallToolResult with isError=True and the error message as content. The Executor receives this as a normal result — it does not crash. The Replanner then sees the failure in past_steps and can adapt the plan."
+                 data-explanation-wrong="Look at the retry_interceptor function in mcp_client.py — what does it return after the loop finishes? Does it let the error propagate, or does it catch it and return something?">
+              <div class="quiz-options">
+                <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The system crashes with an unhandled exception</span>
+                </button>
+                <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The retry interceptor returns an error result with isError=True — the app continues running</span>
+                </button>
+                <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The retry interceptor switches to a different LLM provider automatically</span>
+                </button>
+                <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The system waits 60 seconds and retries indefinitely</span>
+                </button>
+              </div>
+              <div class="quiz-feedback"></div>
+            </div>
+          </div>
+
+          <!-- Q3: Tradeoff question -->
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Scenario 3</span>
+              <p>You are adding a new feature that needs to translate error messages from Chinese to English. You could implement it as a local Python function or as a new MCP server. Which factor is most important in this decision?</p>
+            </div>
+            <div class="quiz-question-block"
+                 data-correct="option-c"
+                 data-explanation-right="This is the key tradeoff. If the translation logic is stable, simple, and tightly coupled to the app (no external dependencies), a local function is cleaner — no network overhead, no separate deployment. But if it might be reused by other systems, needs its own scaling, or changes frequently without redeploying the main app, an MCP server gives you independence. There is no universal right answer — it depends on the context."
+                 data-explanation-wrong="Think about the real tradeoffs here. A local function means no network calls, no separate deployment — but also no separation of concerns. An MCP server means the main app can stay running while the translation service is updated — but adds latency and operational complexity. Which dimension matters most depends on your situation.">
+              <div class="quiz-options">
+                <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>Local functions are always faster, so always choose local</span>
+                </button>
+                <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>MCP servers are always more modular, so always choose MCP</span>
+                </button>
+                <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>If the logic is stable and tightly coupled, go local — if it needs independent deployment or reuse, go MCP</span>
+                </button>
+                <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                  <div class="quiz-option-radio"></div>
+                  <span>The choice does not matter — the Executor treats local functions and MCP tools identically</span>
+                </button>
+              </div>
+              <div class="quiz-feedback"></div>
+            </div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Try Again</button>
+        </div>
+      </section>
+
+    </div><!-- /.module-body -->
+  </div><!-- /.module-content -->
+</section>

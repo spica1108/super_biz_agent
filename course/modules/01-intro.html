@@ -1,0 +1,325 @@
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+
+    <!-- ==================== MODULE HEADER ==================== -->
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">The Big Picture</h1>
+      <p class="module-subtitle">What actually happens when you click that "Diagnose" button</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- ==================== SCREEN 1: DETECTIVE METAPHOR ==================== -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">A Detective, Not Just a Chatbot</h2>
+
+        <p class="animate-in">
+          You've used AI chatbots before. Type a question, get an answer. But SuperBizAgent's
+          <span class="term" data-definition="AIOps (AI Operations) is a mode where the system actively investigates problems instead of just answering questions — like switching from a receptionist to a detective.">AIOps</span>
+          mode is different — it doesn't just answer. It investigates.
+        </p>
+
+        <p class="animate-in">
+          Like a detective at a crime scene, it surveys the situation, forms a theory, gathers evidence, and writes a report.
+          This isn't a simple Q&A — it's a full investigation powered by an
+          <span class="term" data-definition="LLM stands for Large Language Model — an AI trained on vast amounts of text that can understand and generate human-like language.">LLM</span>
+          that thinks step by step.
+        </p>
+
+        <div class="callout callout-accent animate-in">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Key Insight</strong>
+            <p>The app follows a <strong>Plan → Execute → Replan</strong> cycle — it thinks ahead, takes action, then re-evaluates. Just like a human troubleshooter, it doesn't guess the answer in one shot.</p>
+          </div>
+        </div>
+
+        <div class="step-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="step-card animate-in">
+            <div class="step-num">🔍</div>
+            <div class="step-body">
+              <strong>Survey the situation</strong>
+              <p>What alerts are firing? What changed recently?</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">🧠</div>
+            <div class="step-body">
+              <strong>Form a theory</strong>
+              <p>What's the most likely root cause?</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">📊</div>
+            <div class="step-body">
+              <strong>Gather evidence</strong>
+              <p>Check logs, metrics, and system state</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">🔄</div>
+            <div class="step-body">
+              <strong>Revise the theory</strong>
+              <p>Update based on what the evidence says</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">📝</div>
+            <div class="step-body">
+              <strong>Write the report</strong>
+              <p>Summarize findings and recommend fixes</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SCREEN 2: DATA FLOW ANIMATION ==================== -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Follow the Data</h2>
+
+        <p class="animate-in">
+          When you click that Diagnose button, your request travels across four key
+          <span class="term" data-definition="A service is a focused piece of software that handles one job — like a department in a company. The AIOpsService is the department responsible for running diagnoses.">services</span>
+          in the system. Each one plays a specific role in turning your click into a useful
+          <span class="term" data-definition="A diagnostic is a process of identifying what's causing a problem — like a mechanic running tests to figure out why your car won't start.">diagnosis</span>.
+        </p>
+
+        <div class="flow-animation animate-in" data-steps='[
+          {"highlight":"flow-actor-1","label":"You click the Diagnose button — the investigation starts"},
+          {"highlight":"flow-actor-2","label":"Browser sends a POST request to the /api/aiops endpoint","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"FastAPI routes the request to the diagnose_stream handler function"},
+          {"highlight":"flow-actor-3","label":"The handler calls AIOpsService to begin the diagnosis","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"AIOpsService asks the Planner to create a step-by-step plan","packet":true,"from":"actor-3","to":"actor-4"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon" style="background: var(--color-actor-1)">🖥️</div>
+              <span>Browser</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon" style="background: var(--color-actor-2)">⚡</div>
+              <span>
+                <span class="term" data-definition="FastAPI is a modern Python web framework for building APIs — think of it as the engine that receives incoming requests and sends them to the right handler.">FastAPI</span>
+              </span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon" style="background: var(--color-actor-3)">🔄</div>
+              <span>AIOpsService</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon" style="background: var(--color-actor-4)">🧠</div>
+              <span>Planner</span>
+            </div>
+          </div>
+
+          <div class="flow-packet" id="flow-packet"></div>
+
+          <div class="flow-step-label" id="flow-label">Click "Next Step" to trace the journey</div>
+
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Next Step</button>
+            <button class="btn flow-reset-btn">Restart</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+
+        <div class="animate-in" style="margin-top: var(--space-6); color: var(--color-text-secondary); font-size: var(--text-sm);">
+          <p>
+            A
+            <span class="term" data-definition="A POST request is a type of HTTP request that sends data to a server — like filling out a form and hitting submit, rather than just asking for a page.">POST</span>
+            request sends data (like your diagnosis request) to the server. The
+            <span class="term" data-definition="An endpoint is a specific URL where an API can be accessed. It's like a specific phone extension in a company phone system.">endpoint</span>
+            <code>/api/aiops</code> is the exact address this request goes to. The
+            <span class="term" data-definition="A route is a mapping between a URL path and the code that handles it — like a receptionist who knows which person handles which type of request.">route</span>
+            tells FastAPI which function to run when that address is hit.
+          </p>
+          <p style="margin-top: var(--space-3);">
+            By contrast, the root route (/) serves the
+            <span class="term" data-definition="A static file is a file that does not change — like an image, CSS stylesheet, or HTML page — that the server sends to the browser as-is.">static file</span>
+            <code>index.html</code> when you first load the page. That's the web UI you see before clicking Diagnose.
+          </p>
+        </div>
+      </section>
+
+      <!-- ==================== SCREEN 3: CODE ↔ ENGLISH TRANSLATION ==================== -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Behind the Code</h2>
+
+        <p class="animate-in">
+          Here's the actual code that handles your diagnosis request. On the left, the real
+          <span class="term" data-definition="Source code is the set of human-readable instructions that tell a computer what to do. It's like a recipe for software.">source code</span>
+          from <code>app/api/aiops.py</code>. On the right, what it means in plain English.
+        </p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code>
+<span class="code-line">@router.post(<span class="code-string">"/aiops"</span>)</span>
+<span class="code-line"><span class="code-keyword">async</span> <span class="code-keyword">def</span> <span class="code-function">diagnose_stream</span>(request: AIOpsRequest):</span>
+<span class="code-line">    session_id = request.session_id <span class="code-keyword">or</span> <span class="code-string">"default"</span></span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="code-keyword">async</span> <span class="code-keyword">def</span> <span class="code-function">event_generator</span>():</span>
+<span class="code-line">        <span class="code-keyword">async</span> <span class="code-keyword">for</span> event <span class="code-keyword">in</span> aiops_service.diagnose(session_id=session_id):</span>
+<span class="code-line">            <span class="code-comment"># 发送事件</span></span>
+<span class="code-line">            <span class="code-keyword">yield</span> {</span>
+<span class="code-line">                <span class="code-property">"event"</span>: <span class="code-string">"message"</span>,</span>
+<span class="code-line">                <span class="code-property">"data"</span>: json.dumps(event, ensure_ascii=<span class="code-keyword">False</span>)</span>
+<span class="code-line">            }</span>
+<span class="code-line"></span>
+<span class="code-line">            <span class="code-comment"># 如果是完成或错误事件，结束流</span></span>
+<span class="code-line">            <span class="code-keyword">if</span> event.get(<span class="code-string">"type"</span>) <span class="code-keyword">in</span> [<span class="code-string">"complete"</span>, <span class="code-string">"error"</span>]:</span>
+<span class="code-line">                <span class="code-keyword">break</span></span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="code-keyword">return</span> EventSourceResponse(event_generator())</span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>📌 Line 1:</strong> Mark this function as a POST handler at <code>/api/aiops</code> — the doorbell for incoming diagnosis requests.</p>
+              <p class="tl"><strong>🔄 Lines 2-3:</strong> Define an
+                <span class="term" data-definition="Async (short for asynchronous) means doing multiple things without waiting for each to finish — like cooking while the laundry runs.">async</span>
+                function that receives diagnosis requests and gives each conversation a unique ID.</p>
+              <p class="tl"><strong>📦 Line 5:</strong> Create an internal generator — a function that produces events one by one instead of all at once.</p>
+              <p class="tl"><strong>📤 Lines 6-11:</strong> Loop through each event from the AIOpsService and send it as a
+                <span class="term" data-definition="JSON is a lightweight format for organizing data as text — like a structured list of items with labels. It's the most common way programs exchange data.">JSON</span>
+                message. The browser reads these live as they arrive.</p>
+              <p class="tl"><strong>⏹️ Lines 13-15:</strong> Check if the diagnosis is finished or hit an error. If so, close the stream.</p>
+              <p class="tl"><strong>📡 Line 17:</strong> Wrap the whole thing in an
+                <span class="term" data-definition="SSE stands for Server-Sent Events — a technology that lets the server push live updates to the browser over a single connection, like a live news ticker.">SSE</span>
+                response so the browser receives updates in real time.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="animate-in" style="margin-top: var(--space-4); color: var(--color-text-secondary); font-size: var(--text-sm);">
+          The
+          <span class="term" data-definition="A decorator is a special marker in Python that adds behavior to a function without changing its code — like putting a 'fragile' sticker on a package to tell handlers to be careful.">decorator</span>
+          <code>@router.post</code> is what tells FastAPI this function handles POST requests. The
+          <span class="term" data-definition="A session is a single conversation between the user and the system. Each session has a unique ID that keeps track of context across multiple steps.">session</span>
+          ID keeps track of which conversation this diagnosis belongs to.
+        </p>
+      </section>
+
+      <!-- ==================== SCREEN 4: PATTERN CARDS ==================== -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Three Key Patterns</h2>
+
+        <p class="animate-in">
+          The system is built on three architectural patterns. Together they make the diagnosis flow possible — from click to report.
+        </p>
+
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">🔄</div>
+            <h4 class="pattern-title">Plan-Execute-Replan</h4>
+            <p class="pattern-desc">The system doesn't guess an answer in one shot. It creates a plan, executes each step, then re-evaluates based on what it finds — just like a detective revising their theory.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">📡</div>
+            <h4 class="pattern-title">Streaming Output</h4>
+            <p class="pattern-desc">Instead of making you wait minutes for a full answer, the system sends results as they happen. You see each step appear in real time via
+              <span class="term" data-definition="An event stream is a series of messages sent from the server to the client in real time — like a Twitter feed that keeps updating as new tweets arrive.">event stream</span>
+              technology.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">🔧</div>
+            <h4 class="pattern-title">Tool Integration</h4>
+            <p class="pattern-desc">The
+              <span class="term" data-definition="An LLM (Large Language Model) is an AI trained on vast amounts of text — it can understand questions, write code, and reason through problems step by step.">LLM</span>
+              doesn't work from memory alone. It calls real tools — log checkers, metric queries, system commands — to gather actual evidence, just like a detective using forensic equipment.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SCREEN 5: QUIZ ==================== -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">What Would You Do?</h2>
+
+        <p class="animate-in">
+          Let's see if the big picture makes sense. These scenarios test whether you can apply what you just learned.
+        </p>
+
+        <div class="quiz-container animate-in" id="quiz-module1">
+
+          <!-- Question 1 -->
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! When the
+                 <span class='term' data-definition='A static file is a file that does not change — like an image, CSS stylesheet, or HTML page — that the server sends to the browser as-is.'>static file</span>
+                 <code>index.html</code> is missing, FastAPI returns the JSON fallback instead of the web UI. You'd see raw JSON data in your browser."
+               data-explanation-wrong="Not quite. Think about the root route we discussed — it has two possible responses. One is the HTML page, the other is a JSON fallback. What would cause the fallback to trigger?">
+            <div class="scenario-block">
+              <div class="scenario-context">
+                <span class="scenario-label">Scenario</span>
+                <p>A user visits <code>http://localhost:9900</code> and sees a JSON response instead of the web UI. What's the most likely cause?</p>
+              </div>
+            </div>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The FastAPI server is not running</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The <code>index.html</code> file is missing from the static directory</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The browser doesn't support HTML</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The /api/aiops endpoint is down</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <!-- Question 2 -->
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Right! Following the same pattern as <code>app/api/aiops.py</code>, you'd create a new
+                 <span class='term' data-definition='A route is a URL path that the server knows how to handle. API routes live in the app/api/ directory and each file handles one category of requests.'>API route</span>
+                 file. This keeps the health check logic separate and organized, just like the diagnosis endpoint."
+               data-explanation-wrong="Not quite. Think about where the diagnosis endpoint lives in the project structure. Each API endpoint gets its own file in the <code>app/api/</code> directory. Where would a new health check endpoint belong?">
+            <div class="scenario-block">
+              <div class="scenario-context">
+                <span class="scenario-label">Scenario</span>
+                <p>You want to add a database health check to the system. Based on what you learned about the project structure, which approach makes the most sense?</p>
+              </div>
+            </div>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Modify <code>static/index.html</code> to add a health check button</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Create a new file <code>app/api/health.py</code> with a health check endpoint</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Add the health check logic to the AIOpsService</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Hardcode the database status in the frontend</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-actions">
+            <button class="btn quiz-check-btn" onclick="checkQuiz('quiz-module1')">Check Answers</button>
+            <button class="btn quiz-reset-btn" onclick="resetQuiz('quiz-module1')">Try Again</button>
+          </div>
+
+        </div>
+      </section>
+
+    </div><!-- /module-body -->
+  </div><!-- /module-content -->
+</section>
