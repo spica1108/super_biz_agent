@@ -96,6 +96,10 @@ bench/active_scenario.json
 bench/results/
 简历.md
 
+# Vue frontend
+frontend/node_modules/
+frontend/dist/
+
 # Secrets and local configuration
 .env
 .env.*

@@ -71,12 +71,12 @@ app.include_router(aiops.router, prefix="/api", tags=["AIOps智能运维"])
 app.include_router(embedding.router, prefix="/api", tags=["Embedding"])
 
 # 挂载静态文件，会去项目的 static/ 目录找文件
-static_dir = "static"
+static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+os.makedirs(static_dir, exist_ok=True)
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.get("/")
 async def root():
-    #访问根路径时，它会找：static/index.html
     """返回首页"""
     index_path = os.path.join(static_dir, "index.html")
     if os.path.exists(index_path):

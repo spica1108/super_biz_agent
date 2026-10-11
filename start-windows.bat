@@ -20,6 +20,22 @@ if errorlevel 1 (
 )
 echo.
 
+REM 构建 Vue 3 前端（如果已安装 Node.js）
+if exist frontend\package.json (
+    where npm >nul 2>&1
+    if not errorlevel 1 (
+        echo [前端] 安装并构建 Vue 3 前端...
+        pushd frontend
+        if not exist node_modules npm install --no-audit --no-fund
+        call npm run build
+        if errorlevel 1 echo [警告] 前端构建失败，请手动执行 frontend\npm run build
+        popd
+    ) else (
+        echo [警告] 未检测到 npm，跳过前端构建
+    )
+)
+echo.
+
 REM 确保 Python 版本正确
 echo [2/6] 配置 Python 版本...
 if exist .python-version (

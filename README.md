@@ -63,10 +63,11 @@ super_biz_agent_py/
 │   └── utils/                              # 工具类
 │       ├── __init__.py
 │       └── logger.py                       # 日志配置（Loguru）
-├── static/                                 # Web 前端（纯静态）
-│   ├── index.html                          # 主页面
-│   ├── app.js                              # 前端逻辑
-│   └── styles.css                          # 样式表
+├── frontend/                               # Vue 3 + TypeScript 前端源码
+│   ├── src/App.vue                         # 应用界面与交互
+│   ├── src/main.ts                         # 前端入口
+│   └── vite.config.ts                      # 开发代理与构建配置
+├── static/                                 # Vite 构建产物，由 FastAPI 提供
 ├── mcp_servers/                            # MCP 服务器
 │   ├── cls_server.py                       # CLS 日志查询服务
 │   ├── monitor_server.py                   # 监控数据服务
@@ -85,4 +86,20 @@ super_biz_agent_py/
 ├── uv.lock                                 # uv 依赖锁定文件
 ├── pyrightconfig.json                      # Pyright 类型检查配置
 └── README.md                               # 项目说明
+```
+
+## 前端开发
+
+前端使用 Vue 3、TypeScript 和 Vite。开发服务器会将 `/api` 请求代理到本地 FastAPI（`127.0.0.1:9900`）。
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+生产构建会输出到项目根目录的 `static/`，由 FastAPI 在 `/` 和 `/static/` 提供：
+
+```powershell
+npm run build
 ```
